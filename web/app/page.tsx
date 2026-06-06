@@ -1,4 +1,6 @@
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import type { Metadata } from "next";
 import HomePage from "../page-components/home/ui/HomePage";
 
@@ -17,9 +19,15 @@ export default async function RootPage() {
 
   try {
     const [leaguesRes, liveRes, upcomingRes] = await Promise.all([
-      fetch(`${baseUrl}/api/leagues`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/matches/live`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/matches?status=UPCOMING`, { cache: "no-store" }),
+      fetch(`${baseUrl}/api/leagues`, {
+        cache: "no-store",
+      }),
+      fetch(`${baseUrl}/api/matches/live`, {
+        cache: "no-store",
+      }),
+      fetch(`${baseUrl}/api/matches?status=UPCOMING`, {
+        cache: "no-store",
+      }),
     ]);
 
     if (leaguesRes.ok) {

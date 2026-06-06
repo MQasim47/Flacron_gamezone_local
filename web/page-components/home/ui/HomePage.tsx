@@ -89,6 +89,7 @@ export default function HomePage({
     liveMatchCountRef.current = totalLiveMatches || liveMatches.length;
   }, [totalLiveMatches, liveMatches.length]);
 
+  // Always refresh live matches on mount to get current data
   const refreshLiveMatches = useCallback(async () => {
     try {
       const liveRes = await apiGet<Match[]>("/api/matches/live");
@@ -101,11 +102,13 @@ export default function HomePage({
   }, []);
 
   useEffect(() => {
+    // Refresh immediately on mount so client always has latest live count
+    refreshLiveMatches();
+
     const interval = setInterval(() => {
-      if (liveMatchCountRef.current > 0) {
-        refreshLiveMatches();
-      }
+      refreshLiveMatches();
     }, 45000);
+
     return () => clearInterval(interval);
   }, [refreshLiveMatches]);
 
