@@ -403,14 +403,15 @@ export function MatchDetailClient({ initialMatch, matchId }: Props) {
             </div>
 
             {/* Teams Battle Zone */}
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-8 mb-8">
+
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4 md:gap-8 mb-6 sm:mb-8">
               {/* Home Team */}
               <div className="text-center md:text-right">
-                <div className="relative inline-block mb-4 group">
-                  <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500/40 to-blue-500/40 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-300"></div>
+                <div className="relative inline-block mb-2 sm:mb-4 group">
+                  <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500/40 to-blue-500/40 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-300" />
                   <div className="relative">
                     {match.homeTeam?.logo ? (
-                      <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl p-4 border-2 border-cyan-500/50 shadow-2xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border-2 border-cyan-500/50 shadow-2xl flex items-center justify-center">
                         <img
                           src={match.homeTeam.logo}
                           alt={match.homeTeam.name}
@@ -418,19 +419,16 @@ export function MatchDetailClient({ initialMatch, matchId }: Props) {
                         />
                       </div>
                     ) : (
-                      <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl md:text-4xl font-black border-2 border-cyan-500/50 shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-4xl font-black border-2 border-cyan-500/50 shadow-2xl">
                         {match.homeTeam?.name?.charAt(0)}
                       </div>
                     )}
-                    <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg border-2 border-slate-900">
-                      <Shield className="w-6 h-6 text-white" />
-                    </div>
                   </div>
                 </div>
-                <h2 className="text-xl md:text-3xl font-black text-white mb-2 uppercase tracking-tight">
+                <h2 className="text-sm sm:text-xl md:text-3xl font-black text-white mb-1 sm:mb-2 uppercase tracking-tight line-clamp-2">
                   {match.homeTeam?.name}
                 </h2>
-                <div className="inline-flex items-center gap-2 bg-cyan-500/20 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-cyan-500/30">
+                <div className="inline-flex items-center gap-1.5 bg-cyan-500/20 backdrop-blur-sm rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-cyan-500/30">
                   <span className="text-xs font-black text-cyan-400 uppercase tracking-wider">
                     🏠 Home
                   </span>
@@ -438,23 +436,20 @@ export function MatchDetailClient({ initialMatch, matchId }: Props) {
               </div>
 
               {/* Score/VS Section */}
-              <div className="text-center min-w-[140px] md:min-w-[180px]">
+              <div className="text-center min-w-[80px] sm:min-w-[120px] md:min-w-[180px]">
                 {match.status === "FINISHED" || match.status === "LIVE" ? (
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/20 via-blue-600/20 to-cyan-600/20 blur-3xl"></div>
-                      <div className="relative text-5xl md:text-7xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-2xl tracking-tighter">
-                        {match.score || "0-0"}
-                      </div>
+                  <div className="space-y-2 sm:space-y-4">
+                    <div className="text-3xl sm:text-5xl md:text-7xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-2xl tracking-tighter">
+                      {match.score || "0-0"}
                     </div>
                     {getStatusBadge(match.status)}
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-2 sm:space-y-4">
                     {getStatusBadge(match.status)}
-                    <div className="flex flex-col items-center gap-2 text-sm bg-slate-900/70 backdrop-blur-sm rounded-xl px-4 py-3 border-2 border-blue-500/30 shadow-lg">
-                      <Clock className="w-6 h-6 text-blue-400 animate-pulse" />
-                      <div className="font-black text-white uppercase tracking-wide">
+                    <div className="flex flex-col items-center gap-1 sm:gap-2 text-xs sm:text-sm bg-slate-900/70 backdrop-blur-sm rounded-xl px-2 py-2 sm:px-4 sm:py-3 border-2 border-blue-500/30 shadow-lg">
+                      <Clock className="w-4 h-4 sm:w-6 sm:h-6 text-blue-400 animate-pulse" />
+                      <div className="font-black text-white uppercase tracking-wide text-xs sm:text-sm text-center">
                         {new Date(match.kickoffTime).toLocaleString(
                           lang === "fr" ? "fr-FR" : "en-US",
                           {
@@ -472,11 +467,11 @@ export function MatchDetailClient({ initialMatch, matchId }: Props) {
 
               {/* Away Team */}
               <div className="text-center md:text-left">
-                <div className="relative inline-block mb-4 group">
-                  <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/40 to-purple-500/40 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-300"></div>
+                <div className="relative inline-block mb-2 sm:mb-4 group">
+                  <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/40 to-purple-500/40 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-300" />
                   <div className="relative">
                     {match.awayTeam?.logo ? (
-                      <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl p-4 border-2 border-blue-500/50 shadow-2xl group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border-2 border-blue-500/50 shadow-2xl flex items-center justify-center">
                         <img
                           src={match.awayTeam.logo}
                           alt={match.awayTeam.name}
@@ -484,19 +479,16 @@ export function MatchDetailClient({ initialMatch, matchId }: Props) {
                         />
                       </div>
                     ) : (
-                      <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl flex items-center justify-center text-3xl md:text-4xl font-black border-2 border-blue-500/50 shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-slate-900/90 backdrop-blur-sm rounded-2xl flex items-center justify-center text-xl sm:text-3xl md:text-4xl font-black border-2 border-blue-500/50 shadow-2xl">
                         {match.awayTeam?.name?.charAt(0)}
                       </div>
                     )}
-                    <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg border-2 border-slate-900">
-                      <Target className="w-6 h-6 text-white" />
-                    </div>
                   </div>
                 </div>
-                <h2 className="text-xl md:text-3xl font-black text-white mb-2 uppercase tracking-tight">
+                <h2 className="text-sm sm:text-xl md:text-3xl font-black text-white mb-1 sm:mb-2 uppercase tracking-tight line-clamp-2">
                   {match.awayTeam?.name}
                 </h2>
-                <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-blue-500/30">
+                <div className="inline-flex items-center gap-1.5 bg-blue-500/20 backdrop-blur-sm rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-blue-500/30">
                   <span className="text-xs font-black text-blue-400 uppercase tracking-wider">
                     ✈️ Away
                   </span>

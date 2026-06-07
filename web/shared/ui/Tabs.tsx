@@ -39,7 +39,10 @@ export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
   };
 
   return (
-    <div className="flex gap-2 border-b border-slate-700/50" role="tablist">
+    <div
+      className="flex gap-1 sm:gap-2 border-b border-slate-700/50 overflow-x-auto scrollbar-none"
+      role="tablist"
+    >
       {tabs.map((tab, index) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -53,16 +56,18 @@ export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
             tabIndex={isActive ? 0 : -1}
             onClick={() => onTabChange(tab.id)}
             onKeyDown={(e) => handleKeyDown(e, index)}
-            className={`px-4 py-2 font-medium transition-colors relative ${
+            className={`flex-shrink-0 px-3 sm:px-4 py-2 font-medium transition-colors relative text-xs sm:text-sm ${
               isActive
                 ? "text-blue-500"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            <Icon className="w-4 h-4 inline mr-2" />
+            <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
             {tab.label}
             {tab.count !== undefined && (
-              <span className="ml-2 text-xs opacity-60">({tab.count})</span>
+              <span className="ml-1 sm:ml-2 text-xs opacity-60">
+                ({tab.count})
+              </span>
             )}
             {isActive && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />

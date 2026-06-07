@@ -69,25 +69,27 @@ const colorMap = {
 
 export function StatsCards({ stats }: StatsCardsProps) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {CARDS.map(({ key, label, icon: Icon, color, gradient }) => {
         const c = colorMap[color];
         return (
           <div
             key={key}
-            className={`bg-gradient-to-br ${gradient} backdrop-blur-sm border ${c.border} rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg`}
+            className={`bg-gradient-to-br ${gradient} backdrop-blur-sm border ${c.border} rounded-xl sm:rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg`}
           >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
               <div
-                className={`w-10 h-10 rounded-xl ${c.icon} border flex items-center justify-center`}
+                className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl ${c.icon} border flex items-center justify-center`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">
+            <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
               {Number(stats[key]).toLocaleString()}
             </div>
-            <div className={`text-sm font-medium ${c.text}`}>{label}</div>
+            <div className={`text-xs sm:text-sm font-medium ${c.text}`}>
+              {label}
+            </div>
           </div>
         );
       })}

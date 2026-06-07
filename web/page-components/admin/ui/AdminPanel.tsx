@@ -476,25 +476,22 @@ export function AdminPanel() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-            <Shield className="w-6 h-6 text-white" />
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
+            <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-black bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            <h1 className="text-lg sm:text-2xl font-black bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               Admin Panel
             </h1>
-            <p className="text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-400">
               Manage your football platform
             </p>
           </div>
         </div>
-
         {message && <AlertMessage message={message} />}
-
         {/* Tabs */}
         <AdminPanelTabs active={activeTab} onChange={setActiveTab} />
-
         {/* Tab Content */}
         <div className="space-y-6">
           {/* Overview */}

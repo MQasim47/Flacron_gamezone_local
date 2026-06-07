@@ -254,37 +254,37 @@ export default function LiveMatchesClient({
                         </div>
                       </div>
                     )}
-                    <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-6">
-                      <div className="flex items-center justify-end gap-3">
+                    <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
+                      <div className="flex items-center justify-end gap-2 sm:gap-3">
                         {match.homeTeam.logo && (
                           <Image
                             src={match.homeTeam.logo}
                             alt={match.homeTeam.name}
-                            width={32}
-                            height={32}
+                            width={28}
+                            height={28}
                             style={{ height: "auto" }}
-                            className="object-contain"
+                            className="object-contain w-6 h-6 sm:w-8 sm:h-8"
                           />
                         )}
-                        <span className="font-black text-white">
+                        <span className="font-black text-white text-sm sm:text-base truncate">
                           {match.homeTeam.name}
                         </span>
                       </div>
-                      <div className="text-3xl font-black text-cyan-400 text-center">
+                      <div className="text-2xl sm:text-3xl font-black text-cyan-400 text-center whitespace-nowrap px-1">
                         {match.score ?? "vs"}
                       </div>
-                      <div className="flex items-center justify-start gap-3">
+                      <div className="flex items-center justify-start gap-2 sm:gap-3">
                         {match.awayTeam.logo && (
                           <Image
                             src={match.awayTeam.logo}
                             alt={match.awayTeam.name}
-                            width={32}
-                            height={32}
+                            width={28}
+                            height={28}
                             style={{ height: "auto" }}
-                            className="object-contain"
+                            className="object-contain w-6 h-6 sm:w-8 sm:h-8"
                           />
                         )}
-                        <span className="font-black text-white">
+                        <span className="font-black text-white text-sm sm:text-base truncate">
                           {match.awayTeam.name}
                         </span>
                       </div>

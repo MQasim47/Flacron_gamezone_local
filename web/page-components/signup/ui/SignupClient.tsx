@@ -185,7 +185,7 @@ export function SignupClient() {
           {/* Hover glow */}
           <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500" />
 
-          <div className="relative bg-gradient-to-b from-slate-800/95 to-slate-900/95 backdrop-blur-2xl border border-slate-700/50 rounded-2xl p-8 shadow-2xl">
+          <div className="relative bg-gradient-to-b from-slate-800/95 to-slate-900/95 backdrop-blur-2xl border border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-2xl">
             {/* Logo */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 via-purple-600 to-blue-600 mb-4 shadow-lg shadow-purple-500/50 relative group-hover:scale-110 transition-transform duration-500">

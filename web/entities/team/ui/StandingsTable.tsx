@@ -35,9 +35,11 @@ export function StandingsTable({
 }: StandingsTableProps) {
   if (standings.length === 0) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
-        <Trophy className="w-12 h-12 mx-auto mb-4 opacity-50" />
-        <p className="text-lg font-medium mb-2">No Standings Available</p>
+      <div className="p-6 sm:p-8 text-center text-muted-foreground">
+        <Trophy className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 opacity-50" />
+        <p className="text-base sm:text-lg font-medium mb-2">
+          No Standings Available
+        </p>
         <p className="text-sm">
           This league doesn't have any teams or finished matches yet.
         </p>
@@ -53,18 +55,20 @@ export function StandingsTable({
     index: number;
   }) => {
     const content = (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {standing.team.logo && (
           <Image
             src={standing.team.logo}
             alt={standing.team.name}
-            width={24}
-            height={24}
+            width={20}
+            height={20}
             style={{ height: "auto" }}
-            className="rounded"
+            className="rounded w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0"
           />
         )}
-        <span className="font-medium">{standing.team.name}</span>
+        <span className="font-medium text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">
+          {standing.team.name}
+        </span>
       </div>
     );
     if (showTeamLinks)
@@ -82,19 +86,28 @@ export function StandingsTable({
   return (
     <div className="bg-card border border-slate-700/50 rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full min-w-[480px]">
           <thead className="bg-slate-800/50">
             <tr className="text-xs text-muted-foreground">
-              {["#", "Team", "P", "W", "D", "L", "GF", "GA", "GD", "Pts"].map(
-                (h, i) => (
-                  <th
-                    key={i}
-                    className={`${i <= 1 ? "text-left" : "text-center"} p-3 font-medium`}
-                  >
-                    {h}
-                  </th>
-                ),
-              )}
+              {[
+                { full: "#", short: "#" },
+                { full: "Team", short: "Team" },
+                { full: "P", short: "P" },
+                { full: "W", short: "W" },
+                { full: "D", short: "D" },
+                { full: "L", short: "L" },
+                { full: "GF", short: "GF" },
+                { full: "GA", short: "GA" },
+                { full: "GD", short: "GD" },
+                { full: "Pts", short: "Pts" },
+              ].map((h, i) => (
+                <th
+                  key={i}
+                  className={`${i <= 1 ? "text-left" : "text-center"} p-2 sm:p-3 font-medium whitespace-nowrap`}
+                >
+                  {h.full}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -108,23 +121,32 @@ export function StandingsTable({
                   key={standing.team.id}
                   className="border-t border-slate-700/50 hover:bg-slate-800/30 transition-colors"
                 >
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3">
                     <span
-                      className={`font-medium ${isPromotion ? "text-green-500" : isRelegation ? "text-red-500" : ""}`}
+                      className={`font-medium text-xs sm:text-sm ${isPromotion ? "text-green-500" : isRelegation ? "text-red-500" : ""}`}
                     >
                       {index + 1}
                     </span>
                   </td>
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3">
                     <TeamName standing={standing} index={index} />
                   </td>
-                  <td className="text-center p-3">{standing.played}</td>
-                  <td className="text-center p-3">{standing.won}</td>
-                  <td className="text-center p-3">{standing.drawn}</td>
-                  <td className="text-center p-3">{standing.lost}</td>
-                  <td className="text-center p-3">{standing.goalsFor}</td>
-                  <td className="text-center p-3">{standing.goalsAgainst}</td>
-                  <td className="text-center p-3">
+                  {[
+                    standing.played,
+                    standing.won,
+                    standing.drawn,
+                    standing.lost,
+                    standing.goalsFor,
+                    standing.goalsAgainst,
+                  ].map((val, i) => (
+                    <td
+                      key={i}
+                      className="text-center p-2 sm:p-3 text-xs sm:text-sm"
+                    >
+                      {val}
+                    </td>
+                  ))}
+                  <td className="text-center p-2 sm:p-3 text-xs sm:text-sm">
                     <span
                       className={
                         standing.goalDifference > 0
@@ -138,7 +160,7 @@ export function StandingsTable({
                       {standing.goalDifference}
                     </span>
                   </td>
-                  <td className="text-center p-3 font-bold">
+                  <td className="text-center p-2 sm:p-3 font-bold text-xs sm:text-sm">
                     {standing.points}
                   </td>
                 </tr>

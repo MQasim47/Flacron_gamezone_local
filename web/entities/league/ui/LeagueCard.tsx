@@ -32,7 +32,7 @@ export function LeagueCard({
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-2xl blur-md scale-110 opacity-0 group-hover:opacity-100 transition-all duration-500" />
               <div className="relative bg-gradient-to-br from-slate-700/50 to-slate-800/50 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-500">
-                <div className="w-16 h-16 flex items-center justify-center">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
                   <Image
                     src={logo}
                     alt={name}
@@ -43,28 +43,28 @@ export function LeagueCard({
                   />
                 </div>
               </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-ping" />
-              </div>
             </div>
-            <div className="text-center space-y-2 flex-1 flex flex-col justify-center">
-              <h3 className="font-bold text-lg leading-tight line-clamp-2 text-white group-hover:text-blue-100 transition-colors duration-300">
-                {name}
-              </h3>
-              {country && (
-                <div className="flex items-center justify-center gap-1.5 text-slate-400 group-hover:text-cyan-400 transition-colors duration-300">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <p className="text-xs font-medium uppercase tracking-wide">
-                    {country}
-                  </p>
-                </div>
-              )}
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-ping" />
             </div>
-            <div className="w-full pt-4 border-t border-slate-700/50 group-hover:border-blue-500/30 transition-colors duration-500">
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-400 group-hover:text-blue-400 transition-colors duration-300">
-                <span className="font-medium">View League</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </div>
+          <div className="text-center space-y-2 flex-1 flex flex-col justify-center">
+            <h3 className="font-bold text-base sm:text-lg leading-tight line-clamp-2 text-white group-hover:text-blue-100 transition-colors duration-300">
+              {name}
+            </h3>
+            {country && (
+              <div className="flex items-center justify-center gap-1.5 text-slate-400 group-hover:text-cyan-400 transition-colors duration-300">
+                <MapPin className="w-3.5 h-3.5" />
+                <p className="text-xs font-medium uppercase tracking-wide">
+                  {country}
+                </p>
               </div>
+            )}
+          </div>
+          <div className="w-full pt-4 border-t border-slate-700/50 group-hover:border-blue-500/30 transition-colors duration-500">
+            <div className="flex items-center justify-center gap-2 text-sm text-slate-400 group-hover:text-blue-400 transition-colors duration-300">
+              <span className="font-medium">View League</span>
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </div>
           </div>
         </div>

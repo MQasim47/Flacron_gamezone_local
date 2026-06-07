@@ -237,7 +237,6 @@ export function TeamDetailClient({ initialTeam, teamId }: Props) {
           Back to Teams
         </span>
       </Link>
-
       {/* Team Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 border-2 border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20">
         <div className="absolute inset-0 opacity-10">
@@ -312,7 +311,6 @@ export function TeamDetailClient({ initialTeam, teamId }: Props) {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500"></div>
       </div>
-
       {/* No Matches Notice */}
       {!hasMatches && (
         <div className="relative overflow-hidden bg-gradient-to-br from-yellow-900/30 to-orange-900/20 border-2 border-yellow-500/30 rounded-2xl p-6 backdrop-blur-sm">
@@ -333,7 +331,6 @@ export function TeamDetailClient({ initialTeam, teamId }: Props) {
           </div>
         </div>
       )}
-
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard
@@ -367,35 +364,35 @@ export function TeamDetailClient({ initialTeam, teamId }: Props) {
           gradient="from-purple-600 to-pink-600"
         />
       </div>
-
       {/* Tabs */}
-      <div className="relative overflow-hidden bg-slate-900/90 backdrop-blur-xl border-2 border-slate-700/50 rounded-2xl p-2">
-        <div className="flex gap-2">
+      <div className="relative overflow-hidden bg-slate-900/90 backdrop-blur-xl border-2 border-slate-700/50 rounded-xl sm:rounded-2xl p-1.5 sm:p-2">
+        <div className="flex gap-1 sm:gap-2">
           <button
             onClick={() => setActiveTab("upcoming")}
-            className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wide transition-all duration-300 ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-black text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
               activeTab === "upcoming"
-                ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/30"
+                ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg"
                 : "text-slate-400 hover:text-white hover:bg-slate-800/50"
             }`}
           >
-            <Clock className="w-4 h-4" />
-            Upcoming ({upcomingMatches.length})
+            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="truncate">
+              Upcoming ({upcomingMatches.length})
+            </span>
           </button>
           <button
             onClick={() => setActiveTab("past")}
-            className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wide transition-all duration-300 ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-black text-xs sm:text-sm uppercase tracking-wide transition-all duration-300 ${
               activeTab === "past"
-                ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30"
+                ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
                 : "text-slate-400 hover:text-white hover:bg-slate-800/50"
             }`}
           >
-            <TrendingUp className="w-4 h-4" />
-            Past Matches ({pastMatches.length})
+            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="truncate">Past ({pastMatches.length})</span>
           </button>
         </div>
       </div>
-
       {/* Upcoming Matches */}
       {activeTab === "upcoming" && (
         <div className="space-y-4">
@@ -412,7 +409,6 @@ export function TeamDetailClient({ initialTeam, teamId }: Props) {
           )}
         </div>
       )}
-
       {/* Past Matches */}
       {activeTab === "past" && (
         <div className="space-y-4">

@@ -281,40 +281,44 @@ export function TeamsClient({ initialTeams }: Props) {
                 the action in real-time.
               </p>
 
-              <div className="flex flex-wrap gap-6 pt-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-blue-400" />
+              <div className="flex flex-wrap gap-4 sm:gap-6 pt-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-xl sm:text-2xl font-bold text-white">
                       {teams.length}
                     </div>
-                    <div className="text-sm text-slate-400">Active Teams</div>
+                    <div className="text-xs sm:text-sm text-slate-400">
+                      Active Teams
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                    <Target className="w-6 h-6 text-cyan-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                    <Target className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-xl sm:text-2xl font-bold text-white">
                       {totalMatches}
                     </div>
-                    <div className="text-sm text-slate-400">Total Matches</div>
+                    <div className="text-xs sm:text-sm text-slate-400">
+                      Total Matches
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-green-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                    <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-xl sm:text-2xl font-bold text-white">
                       {totalWins}
                     </div>
-                    <div className="text-sm text-slate-400">Total Wins</div>
+                    <div className="text-xs sm:text-sm text-slate-400">
+                      Total Wins
+                    </div>
                   </div>
                 </div>
               </div>

@@ -353,7 +353,7 @@ export default function DashboardPage() {
           <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
             <LayoutDashboard className="w-3.5 h-3.5" /> Quick Actions
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {QUICK_ACTIONS.map((action) => {
               const Icon = action.icon;
               const inner = (
@@ -406,7 +406,7 @@ export default function DashboardPage() {
         )}
 
         {/* Main Grid */}
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
           <div className="lg:col-span-3">
             <div className="group relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl border border-slate-700/50 hover:border-blue-500/40 rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10 h-full">
               <div className="flex items-center justify-between mb-6">

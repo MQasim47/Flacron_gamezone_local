@@ -1,33 +1,33 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
-import { getToken } from "@/shared/api/base";
-import { isAdmin, logout as authLogout } from "@/features/auth/model/auth";
+import { logout as authLogout, isAdmin } from "@/features/auth/model/auth";
 import { SearchOverlay } from "@/features/search/ui/SearchOverlay";
+import { getToken } from "@/shared/api/base";
+import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
-  LogOut,
-  Menu,
-  X,
-  Trophy,
-  Zap,
-  Play,
-  Users,
-  Shield,
-  Globe,
-  Mail,
-  Heart,
-  Github,
-  Twitter,
   Facebook,
-  Search,
-  Tag,
+  Github,
+  Globe,
+  Heart,
   LayoutDashboard,
+  LogOut,
+  Mail,
+  Menu,
+  Play,
+  Search,
+  Shield,
+  Tag,
+  Trophy,
+  Twitter,
+  Users,
+  X,
+  Zap,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 
 interface ShellProps {
   children: React.ReactNode;

@@ -1,4 +1,3 @@
-// app/pricing/PricingClient.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -216,13 +215,13 @@ export function PricingClient() {
           className={`flex justify-center mb-12 transition-all duration-1000 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <div className="inline-flex flex-col items-center gap-3">
-            <div className="inline-flex items-center bg-slate-800/80 border border-slate-700/50 rounded-2xl p-2 backdrop-blur-xl shadow-xl gap-2">
+            <div className="inline-flex items-center bg-slate-800/80 border border-slate-700/50 rounded-xl sm:rounded-2xl p-1.5 sm:p-2 backdrop-blur-xl shadow-xl gap-1 sm:gap-2">
               <button
                 onClick={() => setBillingCycle("monthly")}
                 disabled={loading !== null}
-                className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                className={`px-5 py-2.5 sm:px-8 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   billingCycle === "monthly"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
                     : "text-slate-400 hover:text-white hover:bg-slate-700/40"
                 }`}
               >
@@ -231,9 +230,9 @@ export function PricingClient() {
               <button
                 onClick={() => setBillingCycle("yearly")}
                 disabled={loading !== null}
-                className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                className={`px-5 py-2.5 sm:px-8 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   billingCycle === "yearly"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
                     : "text-slate-400 hover:text-white hover:bg-slate-700/40"
                 }`}
               >
@@ -251,7 +250,7 @@ export function PricingClient() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto mb-12 sm:mb-16">
           {/* Free Plan */}
           <div
             className={`relative group transition-all duration-1000 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}

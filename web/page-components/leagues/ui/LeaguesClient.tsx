@@ -40,7 +40,7 @@ export default function LeaguesClient({ leagues }: { leagues: League[] }) {
         <div className="relative">
           <div
             key={currentPage}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700"
           >
             {currentLeagues.map((league, index) => (
               <LeagueCard

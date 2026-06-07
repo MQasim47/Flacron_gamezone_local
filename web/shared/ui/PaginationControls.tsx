@@ -53,9 +53,9 @@ export function PaginationControls({
   return (
     <div className="relative">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-blue-500/5 rounded-2xl blur-xl" />
-      <div className="relative bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-sm text-slate-400">
+      <div className="relative bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <div className="text-xs sm:text-sm text-slate-400">
             Showing{" "}
             <span className="font-semibold text-cyan-400">{startItem}</span> to{" "}
             <span className="font-semibold text-cyan-400">{endItem}</span> of{" "}
