@@ -1,12 +1,12 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { config } from "../config/index.js";
-import { matchRepository } from "../repositories/match.repository.js";
-import { leagueRepository } from "../repositories/league.repository.js";
-import { teamRepository } from "../repositories/team.repository.js";
 import { cacheGet, cacheSet } from "../lib/redis.js";
+import { leagueRepository } from "../repositories/league.repository.js";
+import { matchRepository } from "../repositories/match.repository.js";
+import { teamRepository } from "../repositories/team.repository.js";
+import type { PaginatedResult, PaginationParams } from "../types/index.js";
 import { footballApiService } from "./footballApi.service.js";
-import type { PaginationParams, PaginatedResult } from "../types/index.js";
 
 const MATCHES_CACHE_KEY = "football:matches";
 const MATCHES_TTL = 60 * 2;
@@ -358,6 +358,13 @@ export const matchService = {
       `[syncLiveFromApi] Total fixtures from API: ${fixtures.length}`,
     );
 
+    if (fixtures.length === 0) {
+      console.warn(
+        "[syncLiveFromApi] API returned 0 fixtures — skipping stale wipe",
+      );
+      return [];
+    }
+
     const liveMatchIds: string[] = [];
     let processed = 0;
 
@@ -429,11 +436,13 @@ export const matchService = {
       `[syncLiveFromApi] Successfully processed ${processed} fixtures → ${liveMatchIds.length} live matches`,
     );
 
-    // Get the list of apiFixtureIds that are currently live
     const currentLiveApiIds = fixtures
       .map((f: { fixture: { id: any } }) => f.fixture?.id)
       .filter((id: any): id is number => typeof id === "number");
 
+    // Only mark stale if we got a meaningful response from the API
+    // Threshold: only wipe if API returned at least 1 fixture
+    // This prevents a quota/outage from clearing all live matches
     if (currentLiveApiIds.length > 0) {
       const result =
         await matchRepository.markStaleLiveAsFinished(currentLiveApiIds);

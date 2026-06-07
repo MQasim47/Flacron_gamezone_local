@@ -18,7 +18,9 @@ export default async function LiveMatchesPage() {
       cache: "no-store",
     });
     if (!res.ok) throw new Error("Failed to fetch live matches");
-    initialMatches = await res.json();
+    const data = await res.json();
+    // Handle both old array shape and new object shape
+    initialMatches = Array.isArray(data) ? data : (data.matches ?? []);
   } catch {
     fetchError = true;
   }

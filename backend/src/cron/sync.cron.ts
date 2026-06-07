@@ -2,6 +2,8 @@ import cron from "node-cron";
 import { matchService } from "../services/match.service.js";
 import { youtubeService } from "../services/youtube.service.js";
 import { config } from "../config/index.js";
+import { cacheDel, cacheSet } from "../lib/redis.js";
+import { FootballApiError } from "../services/footballApi.service.js";
 
 let isLiveSyncing = false; // Prevents overlapping syncs
 
@@ -44,9 +46,11 @@ async function runLiveSync(source: string) {
 
   try {
     console.log(`[cron:sync] ${source} → Starting live sync...`);
-
     const ids = await matchService.syncLiveFromApi();
     const duration = Date.now() - startTime;
+
+    // Clear any previous API error since sync succeeded
+    await cacheDel("api-football:last-error");
 
     if (ids.length > 0) {
       console.log(
@@ -58,7 +62,20 @@ async function runLiveSync(source: string) {
       );
     }
   } catch (err) {
-    console.error(`[cron:sync] ${source} ✗ Failed:`, err);
+    if (err instanceof FootballApiError) {
+      console.error(
+        `[cron:sync] ${source} ✗ API Error [${err.code}]:`,
+        err.message,
+      );
+      // Store error in Redis so the frontend can show it — TTL 10 min
+      await cacheSet(
+        "api-football:last-error",
+        { code: err.code, message: err.message },
+        60 * 10,
+      );
+    } else {
+      console.error(`[cron:sync] ${source} ✗ Failed:`, err);
+    }
   } finally {
     isLiveSyncing = false;
   }

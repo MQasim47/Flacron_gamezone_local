@@ -36,7 +36,8 @@ export default async function RootPage() {
     }
     if (liveRes.ok) {
       const data = await liveRes.json();
-      liveMatches = Array.isArray(data) ? data : [];
+      // Handle both old array shape and new object shape
+      liveMatches = Array.isArray(data) ? data : (data.matches ?? []);
     }
     if (upcomingRes.ok) {
       const data = await upcomingRes.json();

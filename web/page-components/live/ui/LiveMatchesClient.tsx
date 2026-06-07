@@ -1,3 +1,6 @@
+// web/page-components/live/ui/LiveMatchesClient.tsx
+// Full updated file:
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -13,6 +16,7 @@ import {
   AlertCircle,
   PlayCircle,
   Radio,
+  WifiOff,
 } from "lucide-react";
 import { ScrollToTop } from "@/shared/ui/ScrollToTop";
 
@@ -43,6 +47,35 @@ interface Match {
   venue: string | null;
   stream: Stream | null;
 }
+interface ApiError {
+  code: string;
+  message: string;
+}
+interface LiveResponse {
+  matches: Match[];
+  apiError: ApiError | null;
+}
+
+const API_ERROR_MESSAGES: Record<string, { title: string; detail: string }> = {
+  SUSPENDED: {
+    title: "Live data temporarily unavailable",
+    detail:
+      "Our football data provider account is suspended. Scores shown may be outdated. We're working on fixing this.",
+  },
+  QUOTA_EXCEEDED: {
+    title: "Live updates paused until tomorrow",
+    detail:
+      "We've hit our daily data limit. Live scores will resume updating tomorrow.",
+  },
+  NO_KEY: {
+    title: "Live data not configured",
+    detail: "Live score updates are not available right now.",
+  },
+  UNKNOWN: {
+    title: "Live data temporarily unavailable",
+    detail: "We're having trouble connecting to our data provider.",
+  },
+};
 
 export default function LiveMatchesClient({
   initialMatches,
@@ -52,6 +85,7 @@ export default function LiveMatchesClient({
   initialError?: boolean;
 }) {
   const [matches, setMatches] = useState<Match[]>(initialMatches || []);
+  const [apiError, setApiError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(
     initialMatches.length === 0 && !initialError,
   );
@@ -72,10 +106,17 @@ export default function LiveMatchesClient({
       currentController = new AbortController();
       try {
         setError("");
-        const data = await apiGet<Match[]>("/api/matches/live", {
+        const data = await apiGet<LiveResponse>("/api/matches/live", {
           signal: currentController.signal,
         });
-        setMatches(data);
+        // Handle both old array shape and new object shape
+        if (Array.isArray(data)) {
+          setMatches(data);
+          setApiError(null);
+        } else {
+          setMatches(data.matches ?? []);
+          setApiError(data.apiError ?? null);
+        }
         setLastUpdate(new Date());
       } catch (e: any) {
         if ((e as Error).name === "AbortError") return;
@@ -110,11 +151,16 @@ export default function LiveMatchesClient({
     );
   }
 
+  const apiErrorInfo = apiError
+    ? (API_ERROR_MESSAGES[apiError.code] ?? API_ERROR_MESSAGES.UNKNOWN)
+    : null;
+
   return (
     <>
       <ScrollToTop />
       <div className="flex-1 p-4 md:p-6">
         <div className="max-w-7xl mx-auto space-y-6">
+          {/* Header */}
           <div className="bg-gradient-to-br from-slate-900/95 to-red-900/50 border-2 border-red-500/50 rounded-2xl p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -143,6 +189,26 @@ export default function LiveMatchesClient({
             </div>
           </div>
 
+          {/* API Error Banner */}
+          {apiErrorInfo && (
+            <div className="bg-amber-900/30 border-2 border-amber-500/50 rounded-2xl p-5">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <WifiOff className="w-5 h-5 text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-amber-300 font-bold text-sm">
+                    {apiErrorInfo.title}
+                  </p>
+                  <p className="text-amber-400/70 text-xs mt-1">
+                    {apiErrorInfo.detail}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Fetch Error */}
           {error && (
             <div className="bg-red-900/30 border-2 border-red-500/50 rounded-2xl p-5">
               <div className="flex items-center gap-3">
@@ -152,6 +218,7 @@ export default function LiveMatchesClient({
             </div>
           )}
 
+          {/* Matches */}
           {matches.length > 0 ? (
             <div className="grid gap-6">
               {matches.map((match) => (
@@ -253,7 +320,9 @@ export default function LiveMatchesClient({
                 No Live Matches
               </h3>
               <p className="text-slate-400">
-                Check back soon for live football action!
+                {apiErrorInfo
+                  ? "Live match data is currently unavailable."
+                  : "Check back soon for live football action!"}
               </p>
               <Link
                 href="/matches"

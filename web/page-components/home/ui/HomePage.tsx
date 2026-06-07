@@ -92,8 +92,9 @@ export default function HomePage({
   // Always refresh live matches on mount to get current data
   const refreshLiveMatches = useCallback(async () => {
     try {
-      const liveRes = await apiGet<Match[]>("/api/matches/live");
-      const all = Array.isArray(liveRes) ? liveRes : [];
+      const liveRes = await apiGet<any>("/api/matches/live");
+      // Handle both array and object shape
+      const all = Array.isArray(liveRes) ? liveRes : (liveRes.matches ?? []);
       setLiveMatches(all.slice(0, 4));
       setTotalLiveMatches(all.length);
     } catch (error) {

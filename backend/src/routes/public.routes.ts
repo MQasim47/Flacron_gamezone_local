@@ -26,4 +26,6 @@ router.get(
 // Search
 router.get("/search", asyncHandler(publicController.search));
 
+router.get("/api-status", asyncHandler(publicController.getApiStatus));
+
 export default router;
