@@ -1,153 +1,123 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, MapPin, ChevronRight } from "lucide-react";
+import { StatusBadge } from "@/shared/ui/StatusBadge";
+import { formatDateShort, formatDateTime } from "@/shared/lib/format";
+import type { Match } from "@/shared/types";
 
-interface TeamData {
-  name: string;
-  logo: string | null;
-}
-interface League {
-  name: string;
-}
-
-interface MatchCardProps {
-  matchId: string;
-  homeTeam: TeamData;
-  awayTeam: TeamData;
-  kickoffTime: string;
-  status: "UPCOMING" | "LIVE" | "FINISHED";
-  score: string | null;
-  venue: string | null;
-  league: League;
+interface Props {
+  match: Match;
+  /** Highlight this team's result */
   currentTeamName?: string;
-  variant?: "upcoming" | "finished";
+  showLeague?: boolean;
+  variant?: "default" | "compact";
 }
 
 export function MatchCard({
-  matchId,
-  homeTeam,
-  awayTeam,
-  kickoffTime,
-  status,
-  score,
-  venue,
-  league,
+  match,
   currentTeamName,
-  variant = "upcoming",
-}: MatchCardProps) {
-  const isUpcoming = variant === "upcoming";
-  const accentColor = isUpcoming ? "blue" : "green";
-
-  const accentClasses = {
-    blue: {
-      cardHover: "hover:border-blue-500/50 hover:shadow-blue-500/10",
-      badge: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-      chevron: "text-blue-400 group-hover:text-blue-500",
-    },
-    green: {
-      cardHover: "hover:border-green-500/50 hover:shadow-green-500/10",
-      badge: "bg-green-500/10 text-green-400 border-green-500/20",
-      chevron: "text-green-400 group-hover:text-green-500",
-    },
-  };
-
-  const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-
-  const renderScore = () => {
-    if (!score) return null;
-    const [homeScore, awayScore] = score.split("-").map(Number);
-    return (
-      <div className="px-5 py-3 bg-slate-800/90 rounded-xl border border-slate-700/50 min-w-[100px] flex items-center justify-center gap-3">
-        <span
-          className={`text-xl font-bold ${currentTeamName && homeTeam.name === currentTeamName && homeScore > awayScore ? "text-green-400" : "text-white"}`}
-        >
-          {homeScore}
-        </span>
-        <span className="text-slate-600 font-bold">-</span>
-        <span
-          className={`text-xl font-bold ${currentTeamName && awayTeam.name === currentTeamName && awayScore > homeScore ? "text-green-400" : "text-white"}`}
-        >
-          {awayScore}
-        </span>
-      </div>
-    );
-  };
-
-  const renderMatchResult = () => {
-    if (!score || !currentTeamName) return null;
-    if (currentTeamName !== homeTeam.name && currentTeamName !== awayTeam.name)
-      return null;
-    const [homeScore, awayScore] = score.split("-").map(Number);
-    const isWin =
-      (homeTeam.name === currentTeamName && homeScore > awayScore) ||
-      (awayTeam.name === currentTeamName && awayScore > homeScore);
-    const isDraw = homeScore === awayScore;
-    return (
-      <div className="flex items-center gap-2">
-        <div
-          className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${isWin ? "bg-green-500/20 border border-green-500/30 text-green-400" : isDraw ? "bg-yellow-500/20 border border-yellow-500/30 text-yellow-400" : "bg-red-500/20 border border-red-500/30 text-red-400"}`}
-        >
-          {isWin ? "W" : isDraw ? "D" : "L"}
-        </div>
-        <span
-          className={`text-sm font-semibold ${isWin ? "text-green-400" : isDraw ? "text-yellow-400" : "text-red-400"}`}
-        >
-          {isWin ? "Victory" : isDraw ? "Draw" : "Defeat"}
-        </span>
-      </div>
-    );
-  };
+  showLeague = true,
+  variant = "default",
+}: Props) {
+  const isCompact = variant === "compact";
 
   return (
     <Link
-      href={`/match/${matchId}`}
-      className={`block bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 ${accentClasses[accentColor].cardHover} hover:shadow-lg transition-all duration-300 group`}
+      href={`/match/${match.id}`}
+      className="group block bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-5 hover:border-blue-500/50 hover:shadow-lg transition-all duration-300"
     >
+      {/* Header row */}
       <div className="flex items-center justify-between mb-4">
-        <span
-          className={`text-xs font-semibold px-3 py-1.5 ${accentClasses[accentColor].badge} rounded-lg`}
-        >
-          {isUpcoming ? league.name : "FINISHED"}
-        </span>
-        <span className="text-xs text-slate-500 flex items-center gap-1.5 bg-slate-800/50 px-3 py-1.5 rounded-lg">
-          <Calendar className="w-3.5 h-3.5" />
-          {formatDate(kickoffTime)}
-        </span>
-      </div>
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex-1 text-right">
-          <span className="font-semibold text-base block truncate">
-            {homeTeam.name}
+        {showLeague && match.league && (
+          <span className="text-xs font-semibold px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg truncate max-w-[140px]">
+            {match.league.name}
+          </span>
+        )}
+        <div className="ml-auto flex items-center gap-2">
+          <span className="text-xs text-slate-500 flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5" />
+            {formatDateShort(match.kickoffTime)}
           </span>
         </div>
-        {isUpcoming ? (
-          <div className="px-5 py-2.5 bg-slate-800/80 rounded-xl border border-slate-700/50 group-hover:border-blue-500/30 transition-colors">
-            <span className="text-sm font-bold text-slate-400 group-hover:text-blue-400 transition-colors">
-              VS
+      </div>
+
+      {/* Teams + score */}
+      <div className="flex items-center gap-3">
+        <TeamDisplay team={match.homeTeam} align="right" currentTeamName={currentTeamName} />
+
+        <div className="flex-shrink-0 min-w-[80px] text-center">
+          {match.status === "UPCOMING" ? (
+            <div className="space-y-1">
+              <StatusBadge status="UPCOMING" size="sm" />
+              <p className="text-xs text-slate-500">{formatDateTime(match.kickoffTime)}</p>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              <p className="text-2xl font-black text-white">{match.score ?? "–"}</p>
+              <StatusBadge status={match.status} size="sm" />
+            </div>
+          )}
+        </div>
+
+        <TeamDisplay team={match.awayTeam} align="left" currentTeamName={currentTeamName} />
+      </div>
+
+      {/* Footer */}
+      {!isCompact && (
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-700/50">
+          {match.venue ? (
+            <span className="text-xs text-slate-500 flex items-center gap-1 truncate">
+              <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+              {match.venue}
             </span>
-          </div>
-        ) : (
-          renderScore()
-        )}
-        <div className="flex-1">
-          <span className="font-semibold text-base block truncate">
-            {awayTeam.name}
-          </span>
+          ) : (
+            <span />
+          )}
+          <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
         </div>
-      </div>
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-700/50">
-        {isUpcoming ? (
-          <div className="flex items-center gap-2 text-sm text-slate-500">
-            <MapPin className="w-4 h-4" />
-            <span className="truncate">{venue || "TBD"}</span>
-          </div>
-        ) : (
-          renderMatchResult()
-        )}
-        <ChevronRight
-          className={`w-5 h-5 ${accentClasses[accentColor].chevron} group-hover:translate-x-1 transition-all`}
-        />
-      </div>
+      )}
     </Link>
+  );
+}
+
+function TeamDisplay({
+  team,
+  align,
+  currentTeamName,
+}: {
+  team: Match["homeTeam"];
+  align: "left" | "right";
+  currentTeamName?: string;
+}) {
+  const isHighlighted = currentTeamName && team.name === currentTeamName;
+
+  return (
+    <div
+      className={`flex-1 flex items-center gap-2 ${
+        align === "right" ? "flex-row-reverse text-right" : "text-left"
+      }`}
+    >
+      {team.logo ? (
+        <Image
+          src={team.logo}
+          alt={team.name}
+          width={32}
+          height={32}
+          className="object-contain flex-shrink-0"
+          style={{ height: "auto" }}
+        />
+      ) : (
+        <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0">
+          {team.name.slice(0, 2).toUpperCase()}
+        </div>
+      )}
+      <span
+        className={`text-sm font-semibold truncate group-hover:text-blue-300 transition-colors ${
+          isHighlighted ? "text-blue-400" : "text-white"
+        }`}
+      >
+        {team.name}
+      </span>
+    </div>
   );
 }

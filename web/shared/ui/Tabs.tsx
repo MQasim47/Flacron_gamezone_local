@@ -1,9 +1,12 @@
-import { LucideIcon } from "lucide-react";
+"use client";
 
-interface Tab {
+import type { LucideIcon } from "lucide-react";
+import { cn } from "@/shared/lib";
+
+export interface Tab {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   count?: number;
 }
 
@@ -11,39 +14,32 @@ interface TabsProps {
   tabs: Tab[];
   activeTab: string;
   onTabChange: (tabId: string) => void;
+  className?: string;
 }
 
-export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
-  const handleKeyDown = (e: React.KeyboardEvent, currentIndex: number) => {
-    const tabCount = tabs.length;
-    let newIndex: number | null = null;
-    switch (e.key) {
-      case "ArrowRight":
-        newIndex = (currentIndex + 1) % tabCount;
-        break;
-      case "ArrowLeft":
-        newIndex = (currentIndex - 1 + tabCount) % tabCount;
-        break;
-      case "Home":
-        newIndex = 0;
-        break;
-      case "End":
-        newIndex = tabCount - 1;
-        break;
-    }
-    if (newIndex !== null) {
+export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
+  const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
+    let newIdx: number | null = null;
+    if (e.key === "ArrowRight") newIdx = (idx + 1) % tabs.length;
+    if (e.key === "ArrowLeft") newIdx = (idx - 1 + tabs.length) % tabs.length;
+    if (e.key === "Home") newIdx = 0;
+    if (e.key === "End") newIdx = tabs.length - 1;
+    if (newIdx !== null) {
       e.preventDefault();
-      onTabChange(tabs[newIndex].id);
-      document.getElementById(`tab-${tabs[newIndex].id}`)?.focus();
+      onTabChange(tabs[newIdx].id);
+      document.getElementById(`tab-${tabs[newIdx].id}`)?.focus();
     }
   };
 
   return (
     <div
-      className="flex gap-1 sm:gap-2 border-b border-slate-700/50 overflow-x-auto scrollbar-none"
       role="tablist"
+      className={cn(
+        "flex gap-1 border-b border-slate-700/50 overflow-x-auto",
+        className
+      )}
     >
-      {tabs.map((tab, index) => {
+      {tabs.map((tab, idx) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
         return (
@@ -52,25 +48,23 @@ export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
             id={`tab-${tab.id}`}
             role="tab"
             aria-selected={isActive}
-            aria-controls={`panel-${tab.id}`}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onTabChange(tab.id)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-            className={`flex-shrink-0 px-3 sm:px-4 py-2 font-medium transition-colors relative text-xs sm:text-sm ${
+            onKeyDown={(e) => handleKeyDown(e, idx)}
+            className={cn(
+              "flex-shrink-0 flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors relative",
               isActive
-                ? "text-blue-500"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
+                ? "text-blue-400"
+                : "text-slate-400 hover:text-slate-200"
+            )}
           >
-            <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
+            {Icon && <Icon className="w-4 h-4" />}
             {tab.label}
             {tab.count !== undefined && (
-              <span className="ml-1 sm:ml-2 text-xs opacity-60">
-                ({tab.count})
-              </span>
+              <span className="text-xs opacity-60">({tab.count})</span>
             )}
             {isActive && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 rounded-t" />
             )}
           </button>
         );
