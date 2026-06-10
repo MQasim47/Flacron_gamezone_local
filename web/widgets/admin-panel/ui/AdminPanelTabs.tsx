@@ -1,14 +1,9 @@
 "use client";
 
-import { Trophy, Users, Calendar, Play, UserCog, Activity } from "lucide-react";
+import { Activity, Trophy, Users, Calendar, Play, UserCog } from "lucide-react";
+import { cn } from "@/shared/lib";
 
-export type AdminTab =
-  | "overview"
-  | "leagues"
-  | "teams"
-  | "matches"
-  | "streams"
-  | "users";
+export type AdminTab = "overview" | "leagues" | "teams" | "matches" | "streams" | "users";
 
 const TABS: { id: AdminTab; label: string; icon: React.ElementType }[] = [
   { id: "overview", label: "Overview", icon: Activity },
@@ -19,19 +14,22 @@ const TABS: { id: AdminTab; label: string; icon: React.ElementType }[] = [
   { id: "users", label: "Users", icon: UserCog },
 ];
 
-interface AdminPanelTabsProps {
+interface Props {
   active: AdminTab;
   onChange: (tab: AdminTab) => void;
 }
 
-export function AdminPanelTabs({ active, onChange }: AdminPanelTabsProps) {
+export function AdminPanelTabs({ active, onChange }: Props) {
   return (
     <div className="flex overflow-x-auto border-b border-slate-700/50 gap-1 pb-px scrollbar-none">
       {TABS.map(({ id, label, icon: Icon }) => (
         <button
           key={id}
           onClick={() => onChange(id)}
-          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors relative flex-shrink-0 ${active === id ? "text-blue-400" : "text-slate-400 hover:text-slate-200"}`}
+          className={cn(
+            "flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors relative flex-shrink-0",
+            active === id ? "text-blue-400" : "text-slate-400 hover:text-slate-200"
+          )}
         >
           <Icon className="w-4 h-4" />
           {label}
